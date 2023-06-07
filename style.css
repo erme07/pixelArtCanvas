@@ -18,11 +18,8 @@ body{
   align-items: center;
   justify-content: center;
   font-family: depixel;
-  background: #3a6186;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #89253e, #3a6186);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #89253e, #3a6186); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
+  background: #3a6186;
+  background: linear-gradient(to right, #89253e, #3a6186);
 }
 
 main{
@@ -36,11 +33,11 @@ main{
   gap: 20px;
   padding: 20px;
   border: 1px solid black;
+  box-shadow: 0px 0px 20px 0px #000000;
 }
 .title{
   font-weight: bold;
   font-size: 16px;
-  /* text-transform: uppercase; */
 }
 .menu{
   height: 40px;
