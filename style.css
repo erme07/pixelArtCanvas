@@ -3,7 +3,9 @@
   margin: 0;
   box-sizing: border-box;
 }
-
+:root{
+  
+}
 body{
   min-height: 100vh;
   width: 100%;
@@ -11,10 +13,16 @@ body{
   align-items: center;
   justify-content: center;
   font-family: poppins;
+  background: #3a6186;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #89253e, #3a6186);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #89253e, #3a6186); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
 }
 
 main{
   width: 320px;
+  background-color: rgb(235, 235, 235);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -28,6 +36,9 @@ main{
   font-weight: bold;
   font-size: 18px;
   text-transform: uppercase;
+}
+button{
+  background-color: #825374;
 }
 .canvas{
   display: grid;
