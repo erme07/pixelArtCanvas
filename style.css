@@ -6,13 +6,18 @@
 :root{
   
 }
+@font-face {
+    font-family: depixel;
+    src: url(../font/DePixelHalbfett.otf);
+    font-display: swap;
+}
 body{
   min-height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: poppins;
+  font-family: depixel;
   background: #3a6186;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to right, #89253e, #3a6186);  /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to right, #89253e, #3a6186); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -34,19 +39,43 @@ main{
 }
 .title{
   font-weight: bold;
-  font-size: 18px;
-  text-transform: uppercase;
+  font-size: 16px;
+  /* text-transform: uppercase; */
+}
+.menu{
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 button{
-  background-color: #825374;
+  padding: 4px 8px;
+  padding-right: 6px;
+  border: 2px solid black;
+  font-family: depixel;
+  font-size: 10px;
+  border-radius: 5px;
+  font-weight: lighter;
+  cursor: pointer;
 }
+button:hover{
+  background-color: #825374;
+  color: white;
+}
+.picker{
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
 .canvas{
   display: grid;
   grid-template-columns: repeat(28,10px);
   border-top: 1px solid rgb(192, 192, 192);
   border-left: 1px solid rgb(192, 192, 192);
 }
-.celda{
+.cell{
   height: 10px;
   border-bottom: 1px solid rgb(194, 194, 194);
   border-right: 1px solid rgb(192, 192, 192);
