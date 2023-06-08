@@ -95,3 +95,23 @@ button:hover{
   border-bottom: 1px solid var(--lineGrid);
   border-right: 1px solid var(--lineGrid);
 }
+
+/* :::::: STYLES FOR GITHUB LINK :::::: */
+
+.repo-link{
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 80px;
+  height: 80px;
+}
+.main-color {fill: var(--gradientStart); stroke: black; stroke-width: 8px;}
+.second-color {fill: black;}
+.arm {transform-origin: 130px 106px;}
+.icon:hover .arm {animation: arm-movement .6s ease-in-out;}
+
+@keyframes arm-movement {
+  0%, 100% {transform: rotate(0);}
+  20%, 60% {transform: rotate(-25deg);}
+  40%, 80% {transform: rotate(10deg);}
+}
