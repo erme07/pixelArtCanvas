@@ -6,8 +6,8 @@
 :root{
   --gradientStart:#89253e;
   --gradientEnd:#3a6186;
-  --boxColor:#ebebeb;
-  --lineGrid:#c0c0c0;
+  --boxColor:#f0f0f0;
+  --lineGrid:#cecece;
   --buttonHover:#825374;
 }
 @font-face {

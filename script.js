@@ -3,7 +3,7 @@ const menu = document.querySelector(".menu")
 const picker = document.querySelector(".picker")
 
 let grilla = document.createDocumentFragment();
-for (i = 0; i < 980; i++) {
+for (i = 0; i < 1064; i++) {
   const celda = document.createElement("DIV");
   celda.classList.add("cell")
   celda.id = `cell${i + 1}`
@@ -39,5 +39,11 @@ menu.addEventListener("click", (e) => {
   }
   else if (e.target.getAttribute("name") === "clear") {
     clear();
+  }
+})
+
+lienzo.addEventListener("click", (e) => {
+  if (e.target.getAttribute("class") === "cell") {
+    e.target.style.backgroundColor = picker.value;
   }
 })
