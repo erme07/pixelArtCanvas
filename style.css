@@ -11,8 +11,8 @@
   --buttonHover:#825374;
 }
 @font-face {
-    font-family: depixel;
-    src: url(../font/DePixelHalbfett.otf);
+    font-family: 'depixel';
+    src: url(/font/DePixelHalbfett.otf);
     font-display: swap;
 }
 body{
@@ -23,7 +23,7 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: depixel;
+  font-family: 'depixel';
   background: var(--gradientEnd);
   background: linear-gradient(to right, var(--gradientStart), var(--gradientEnd));
 }
@@ -57,7 +57,7 @@ button{
   padding: 4px 8px;
   padding-right: 6px;
   border: 2px solid #000000;
-  font-family: depixel;
+  font-family: 'depixel';
   font-size: 10px;
   border-radius: 5px;
   font-weight: lighter;
