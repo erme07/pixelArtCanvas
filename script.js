@@ -4,7 +4,13 @@ const lienzo = document.querySelector(".canvas"),
 
 let press = false,
   eraser = false,
-  grilla = document.createDocumentFragment();
+  grilla = document.createDocumentFragment(),
+  deviceType = "";
+
+const events = {
+  mouse: "mousemove",
+  touch: "touchmove"
+}
 
 const draw = () => {
   menu.children[2].classList.remove("active");
@@ -24,12 +30,27 @@ const erase = () => {
 
 const clear = () => {
   draw()
+  menu.children[3].classList.add("active");
+  menu.children[3].classList.remove("active");
   lienzo.childNodes.forEach((e) => {
     e.style.backgroundColor = "transparent";
   })
   picker.value = "#000000"
   eraser = false;
 }
+
+const detectDevice = () => {
+  try {
+    document.createEvent("TouchEvent");
+    deviceType = "touch";
+    return true;
+  } catch (e) {
+    deviceType = "mouse";
+    return false;
+  }
+}
+detectDevice();
+
 
 for (i = 0; i < 1064; i++) {
   const celda = document.createElement("DIV");
@@ -45,8 +66,11 @@ menu.addEventListener("click", (e) => {
     draw();
   else if (e.target.getAttribute("name") === "erase")
     erase();
-  else if (e.target.getAttribute("name") === "clear")
+  else if (e.target.getAttribute("name") === "clear") {
+    e.preventDefault()
     clear();
+  }
+
 })
 
 lienzo.addEventListener("mousedown", (e) => {
@@ -61,9 +85,20 @@ lienzo.addEventListener("mouseup", (e) => {
   press = false;
 })
 
-lienzo.addEventListener("mousemove", (e) => {
-  if (press && !eraser)
-    e.target.style.backgroundColor = picker.value
-  else if (press && eraser)
-    e.target.style.backgroundColor = "transparent"
+lienzo.addEventListener(events[deviceType], (e) => {
+  if (detectDevice()) {
+    e.preventDefault()
+    let elementId = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).id
+    if (!eraser) {
+      document.getElementById(elementId).style.backgroundColor = picker.value;
+    } else if (eraser) {
+      document.getElementById(elementId).style.backgroundColor = "transparent"
+    }
+  } else {
+    if (press && !eraser)
+      e.target.style.backgroundColor = picker.value
+    else if (press && eraser)
+      e.target.style.backgroundColor = "transparent"
+  }
+
 })
