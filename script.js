@@ -43,9 +43,12 @@ const detectDevice = () => {
   try {
     document.createEvent("TouchEvent");
     deviceType = "touch";
+    menu.classList.remove("menu--desktop")
     return true;
   } catch (e) {
     deviceType = "mouse";
+
+    menu.classList.add("menu--desktop")
     return false;
   }
 }
