@@ -12,7 +12,7 @@
 }
 @font-face {
     font-family: 'depixel';
-    src: url(./font/DePixelHalbfett.ttf);
+    src: url(./font/DePixelHalbfett.otf);
     font-display: swap;
 }
 body{
