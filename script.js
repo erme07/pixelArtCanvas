@@ -84,7 +84,7 @@ lienzo.addEventListener("mousedown", (e) => {
     e.target.style.backgroundColor = "transparent"
 })
 
-lienzo.addEventListener("mouseup", (e) => {
+document.addEventListener("mouseup", (e) => {
   press = false;
 })
 
@@ -98,9 +98,9 @@ lienzo.addEventListener(events[deviceType], (e) => {
       document.getElementById(elementId).style.backgroundColor = "transparent"
     }
   } else {
-    if (press && !eraser)
+    if (press && !eraser && e.target.classList.contains("cell"))
       e.target.style.backgroundColor = picker.value
-    else if (press && eraser)
+    else if (press && eraser && e.target.classList.contains("cell"))
       e.target.style.backgroundColor = "transparent"
   }
 
