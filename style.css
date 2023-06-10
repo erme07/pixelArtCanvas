@@ -20,9 +20,6 @@ body{
   overflow-x: hidden;
   min-height: 100vh;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-family: 'depixel';
   background: var(--gradientEnd);
   background: linear-gradient(to right, var(--gradientStart), var(--gradientEnd));
