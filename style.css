@@ -24,12 +24,12 @@ body{
   background: var(--gradientEnd);
   background: linear-gradient(to right, var(--gradientStart), var(--gradientEnd));
 }
-.flex-center {display: flex; flex-direction: column; align-items: center;}
+.flex-center {display: flex; align-items: center;justify-content: center;}
 main{
   width: 320px;
   background-color: var(--boxColor);
   border-radius: 10px;
-  justify-content: center;
+  flex-direction: column;
   gap: 20px;
   padding: 20px;
   border: 1px solid #000000;
