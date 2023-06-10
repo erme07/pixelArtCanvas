@@ -1,6 +1,7 @@
 const lienzo = document.querySelector(".canvas"),
   menu = document.querySelector(".menu"),
-  picker = document.querySelector(".picker");
+  picker = document.querySelector(".picker"),
+  body = document.querySelector("body");
 
 let press = false,
   eraser = false,
