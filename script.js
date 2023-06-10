@@ -6,7 +6,8 @@ const lienzo = document.querySelector(".canvas"),
 let press = false,
   eraser = false,
   grilla = document.createDocumentFragment(),
-  deviceType = "";
+  deviceType = "",
+  numCeldas = "";
 
 const events = {
   mouse: "mousemove",
@@ -55,13 +56,26 @@ const detectDevice = () => {
 }
 detectDevice();
 
-
-for (i = 0; i < 1064; i++) {
-  const celda = document.createElement("DIV");
-  celda.classList.add("cell")
-  celda.id = `cell${i + 1}`
-  grilla.appendChild(celda)
+const detectWidth = () => {
+  if (body.clientWidth >= 768) {
+    return 3168;
+  } else if (body.clientWidth >= 576) {
+    return 2014;
+  } else {
+    return 988;
+  }
 }
+numCeldas = detectWidth();
+
+const makeGrid = () => {
+  for (i = 0; i < numCeldas; i++) {
+    const celda = document.createElement("DIV");
+    celda.classList.add("cell")
+    celda.id = `cell${i + 1}`
+    grilla.appendChild(celda)
+  }
+}
+makeGrid();
 
 lienzo.appendChild(grilla);
 
@@ -105,4 +119,10 @@ lienzo.addEventListener(events[deviceType], (e) => {
       e.target.style.backgroundColor = "transparent"
   }
 
+})
+window.addEventListener("resize", () => {
+  numCeldas = detectWidth();
+  makeGrid()
+  lienzo.innerHTML = "";
+  lienzo.appendChild(grilla);
 })

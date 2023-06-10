@@ -26,7 +26,7 @@ body{
 }
 .flex-center {display: flex; align-items: center;justify-content: center;}
 main{
-  width: 320px;
+  width: 768px;
   background-color: var(--boxColor);
   border-radius: 10px;
   flex-direction: column;
@@ -59,7 +59,7 @@ button{
 }
 .canvas{
   display: grid;
-  grid-template-columns: repeat(28,10px);
+  grid-template-columns: repeat(72,10px);
   border-top: 1px solid var(--lineGrid);
   border-left: 1px solid var(--lineGrid);
 }
@@ -88,4 +88,14 @@ button{
   0%, 100% {transform: rotate(0);}
   20%, 60% {transform: rotate(-25deg);}
   40%, 80% {transform: rotate(10deg);}
+}
+
+@media screen and (max-width:768px) {
+  main {width: 576px;}
+  .canvas {grid-template-columns: repeat(53,10px);}
+}
+@media screen and (max-width:576px) {
+  main {width: 320px;}
+  .canvas {grid-template-columns: repeat(26,10px);}
+  .repo-link {width: 50px; height: 50px;}
 }
