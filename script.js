@@ -55,7 +55,7 @@ const detectDevice = () => {
 }
 const detectWidth = () => {
   if ($body.clientWidth >= 768)
-    return 3168;
+    return 4950;
   else if ($body.clientWidth >= 576)
     return 2014;
   else
