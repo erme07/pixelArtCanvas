@@ -39,7 +39,7 @@ main{
 .title {font-weight: bold; font-size: 16px;}
 .menu {height: 40px;gap: 10px;}
 button{
-  height: 35px;
+  height: 30px;
   width: 62px;
   border: 2px solid #000000;
   font-family: 'depixel';
@@ -52,10 +52,15 @@ button{
 .active {background-color: var(--buttonHover); color: #ffffff;}
 .picker{
   width: 35px;
-  height: 35px;
+  height: 30px;
   cursor: pointer;
   border: 2px solid black;
   border-radius: 5px;
+}
+.pickerText{
+  padding: 5px;
+  height: 30px;
+  border: 2px solid #000000;
 }
 .canvas{
   display: grid;

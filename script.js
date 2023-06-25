@@ -20,15 +20,15 @@ const createPen = () => {
   $lienzo.style.cursor = `url(data:image/svg+xml;base64,${btoa(cursorPen)})0 16, auto`;
 }
 const draw = () => {
-  $menu.children[2].classList.remove("active");
-  $menu.children[1].classList.add("active");
+  $menu.children[3].classList.remove("active");
+  $menu.children[2].classList.add("active");
   createPen();
   $lienzo.classList.remove("cursorEraser")
   eraser = false;
 }
 const erase = () => {
-  $menu.children[1].classList.remove("active");
-  $menu.children[2].classList.add("active");
+  $menu.children[2].classList.remove("active");
+  $menu.children[3].classList.add("active");
   $lienzo.style.cursor = ""
   $lienzo.classList.add("cursorEraser")
   eraser = true
@@ -124,6 +124,6 @@ window.addEventListener("resize", () => {
   $lienzo.appendChild(grilla);
 })
 
-$picker.addEventListener("change", () => {
+$picker.addEventListener("input", () => {
   createPen();
 })
