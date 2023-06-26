@@ -1,6 +1,7 @@
 const $lienzo = document.querySelector(".canvas"),
   $menu = document.querySelector(".menu"),
   $picker = document.querySelector(".picker"),
+  $pickerText = document.querySelector(".pickerText"),
   $body = document.querySelector("body"),
   events = {
     mouse: "mousemove",
@@ -14,8 +15,8 @@ let press = false,
   pickerColor = "",
   cursorPen = "";
 
-const createPen = () => {
-  pickerColor = $picker.value;
+const createPen = (pickerColor) => {
+  // pickerColor = $picker.value;
   cursorPen = `<svg width="18" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m 12.1,0.146 a 0.5,0.5 0 0 1 0.8,0 l 3,3.004 a 0.5,0.5 0 0 1 0,0.7 L 5.85,13.9 A 0.5,0.5 0 0 1 5.69,14 l -5.004,2 a 0.5,0.5 0 0 1 -0.65,-0.7 l 2.004,-5 a 0.5,0.5 0 0 1 0.11,-0.2 z" /><path d="M 11.2,2.5 13.5,4.79 14.8,3.5 12.5,1.21 Z" fill="#ffffff" /><path d="M 12.8,5.5 10.5,3.21 4,9.71 V 10 H 4.5 A 0.5,0.5 0 0 1 5,10.5 V 11 H 5.5 A 0.5,0.5 0 0 1 6,11.5 V 12 h 0.29 z" fill="#ffffff" /><path d="M 3.03,10.7 2.93,10.8 1.4,14.6 5.22,13.1 5.33,13 A 0.5,0.5 0 0 1 5,12.5 V 12 H 4.5 A 0.5,0.5 0 0 1 4,11.5 V 11 H 3.5 A 0.5,0.5 0 0 1 3.03,10.7 Z" fill="${pickerColor}" /></svg>`;
   $lienzo.style.cursor = `url(data:image/svg+xml;base64,${btoa(cursorPen)})0 16, auto`;
 }
@@ -71,6 +72,11 @@ const makeGrid = () => {
   }
 }
 
+const showHideGrid = () => {
+  $menu.children[5].classList.toggle("active");
+  $lienzo.classList.toggle("noline");
+}
+
 createPen();
 detectDevice();
 numCeldas = detectWidth();
@@ -84,8 +90,11 @@ $menu.addEventListener("click", (e) => {
   else if (e.target.getAttribute("name") === "erase")
     erase();
   else if (e.target.getAttribute("name") === "clear") {
-    e.preventDefault()
+    // e.preventDefault()
     clear();
+  }
+  else if (e.target.getAttribute("name") === "grid") {
+    showHideGrid();
   }
 })
 
@@ -124,6 +133,10 @@ window.addEventListener("resize", () => {
   $lienzo.appendChild(grilla);
 })
 
-$picker.addEventListener("input", () => {
-  createPen();
+document.addEventListener("input", (e) => {
+  if (e.target.getAttribute("class") === "picker")
+    $pickerText.value = $picker.value;
+  if (e.target.getAttribute("class") === "pickerText")
+    $picker.value = $pickerText.value;
+  createPen(e.target.value);
 })
