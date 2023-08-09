@@ -35,7 +35,10 @@ const erase = () => {
   eraser = true
 }
 const clear = () => {
+  let confirma = confirm("Do you really want to clean the canvas?");
+  if (!confirma) return;
   $picker.value = "#000000"
+  $pickerText.value = $picker.value;
   draw()
   $lienzo.childNodes.forEach((e) => {
     e.style.backgroundColor = "transparent";
@@ -111,9 +114,10 @@ document.addEventListener("mouseup", (e) => {
 })
 
 $lienzo.addEventListener(events[deviceType], (e) => {
+
   if (detectDevice()) {
     e.preventDefault()
-    let elementId = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).id
+    let elementId = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).id;
     if (!eraser)
       document.getElementById(elementId).style.backgroundColor = $picker.value;
     else if (eraser)
