@@ -37,8 +37,8 @@ const erase = () => {
 const clear = () => {
   let confirma = confirm("Do you really want to clean the canvas?");
   if (!confirma) return;
-  $picker.value = "#000000"
-  $pickerText.value = $picker.value;
+  // $picker.value = "#000000"
+  // $pickerText.value = $picker.value;
   draw()
   $lienzo.childNodes.forEach((e) => {
     e.style.backgroundColor = "transparent";
