@@ -23,17 +23,19 @@
   </svg>
   <main class="flex-center">
     <h1 class="title">Pixel Art Canvas</h1>
-    <div class="menu flex-center wrap">
+    <section class="menu flex-center wrap">
       <div  class="picker"><span class="picker__inner"></span></div>
       <!-- <input type="text" class="pickerText" size="4" value="#000000"> -->
       <button class="sprite active" name="draw">Draw</button>
       <button class="sprite" name="erase">Erase</button>
       <button class="sprite" name="clear">Clear</button>
       <button class="sprite active" name="grid">Grid</button>
-    </div>
-    <div class="canvas"></div>
+    </section>
+    <section class="canvas"></section>
   </main>
-  <div class="color-picker">
+  <!-- <div class="picker-container">
+    </div> -->
+    <section class="color-picker" autofocus>
   <div class="panel-spectrum" id="spectrum-map">
     <button id="spectrum-cursor" class="cursor cursor--spectrum" style="left:0px; top:140px;"></button>
     <canvas id="spectrum-canvas" class="panel-spectrum__canvas" width="300" height="140"></canvas>
@@ -57,6 +59,8 @@
       </svg>
     </div>
   </div>
-</div>
+</section>
+  
+  
 </body>
 </html>
