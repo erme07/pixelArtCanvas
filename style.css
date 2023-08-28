@@ -22,7 +22,7 @@ body{
   overflow-x: hidden;
   min-height: 100vh;
   width: 100%;
-  font-family: 'depixel';
+  /* font-family: 'depixel'; */
   background: var(--gradientEnd);
   background: linear-gradient(to right, var(--gradientStart), var(--gradientEnd));
 }
@@ -41,9 +41,9 @@ main{
   box-shadow: 0px 0px 20px 0px #000000;
   user-select: none;
 }
-.title {font-weight: bold; font-size: 16px;}
+.title {font-family: 'depixel';font-weight: bold; font-size: 16px;}
 .menu {height: 40px;gap: 10px;}
-button{
+button.sprite{
   height: 30px;
   width: 60px;
   border: 2px solid #000000;
@@ -51,7 +51,7 @@ button{
   font-size: 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition: all .2s;
+  /* transition: all .2s; */
 }
 .active {background-color: var(--buttonActive); color: #ffffff;}
 .picker{
@@ -60,6 +60,16 @@ button{
   cursor: pointer;
   border: 2px solid black;
   border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.picker__inner{
+  border: 1px solid black;
+  display: block;
+  width: 25px;
+  height: 18px;
+  background-color: #000000;
 }
 .pickerText{
   padding: 5px;
@@ -110,4 +120,154 @@ button{
   main {width: 320px;}
   .canvas {grid-template-columns: repeat(26,10px);}
   .repo-link {width: 50px; height: 50px;}
+}
+
+
+.bodyMove{
+  cursor: move!important;
+}
+.bodyEresize{
+  cursor: e-resize!important;
+}
+.color-picker {
+  background-color: var(--boxColor);
+  width: 300px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 20px;
+  visibility: hidden;
+}
+.show{
+  visibility: visible;
+}
+.panel-options{
+  height: 30px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  
+}
+.panel-spectrum {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+}
+.cursor {
+  border-radius: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  z-index: 2;
+}
+.cursor--spectrum {
+  margin-left:-10px;
+  margin-top: -10px;
+  outline: 2px solid #217ae0;
+  background-color: transparent;
+  outline-offset: -5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 3px 5px 1px #00000073;
+  cursor: move;
+}
+.cursor--color {
+  margin-top: -3px;
+  margin-left: -10px;
+  background-color: #ececec;
+  border: 1px solid rgb(116, 116, 116);
+  cursor:e-resize;
+}
+.panel-spectrum__canvas {
+  position: absolute;
+  inset: 0;
+  cursor: crosshair;
+}
+.hue-canvas{
+  border-radius: 8px;
+  cursor: crosshair;
+}
+.panel-options__hue-map {
+  flex-basis: 190px;
+  height: 14px;
+  margin-left: 9px;
+  position: relative;
+}
+.panel-options__eyedropper{
+  flex-basis: 20px;
+}
+.panel-options__color{
+  flex-basis: 25px;
+  background-color: #000000;
+  border: 1px solid rgb(56, 56, 56);
+  height: 25px;
+  border-radius: 50%;
+}
+.icon{
+  stroke: currentColor;
+  fill: currentColor;
+  width:20px;
+  height:20px;
+}
+.copy{
+  stroke: currentColor;
+  fill: currentColor;
+  width:20px;
+  height:20px;
+}
+.panel-code{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button {
+  background: var(--boxColor);
+  border: 0;
+  border-radius: 4px;
+  color: #8b949a;
+  font-size: 1rem;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, .2); */
+  outline: none;
+  cursor: pointer;
+  padding: 4px;
+}
+/* button:active {
+  background: #00000046;
+} */
+.button-copy{
+  border: 1px solid var(--borderCanvas);
+  border-radius: 0 4px 4px 0;
+  height: 35px;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.panel-code__hex{
+  font-family: monospace;
+  font-size: 15px;
+  background-color: transparent;
+  border-radius: 0;
+  border: 1px solid var(--borderCanvas);
+  border-right: none;
+  color: rgb(0, 0, 0);
+  height: 35px;
+  text-align: center;
+}
+.panel-code__hex:focus-visible{
+  outline: 0;
+}
+.panel-code__hex:focus-visible.hex--succes{
+  box-shadow: inset 0px 0px 5px 0px #00FF00;
+}
+.hex--error{
+  box-shadow: inset 0px 0px 5px 1px #ff0000;
 }
