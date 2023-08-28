@@ -129,6 +129,13 @@ button.sprite{
 .bodyEresize{
   cursor: e-resize!important;
 }
+.picker-container{
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+    background-color: aqua;
+    visibility: hidden;
+}
 .color-picker {
   background-color: var(--boxColor);
   width: 300px;
