@@ -4,10 +4,11 @@ const $lienzo = document.querySelector(".canvas"),
   $pickerInner = document.querySelector(".picker__inner"),
   $pickerText = document.querySelector(".pickerText"),
   $body = document.querySelector("body"),
-  events = {
-    mouse: "mousemove",
-    touch: "touchmove"
-  }
+  $main = document.querySelector("main");
+events = {
+  mouse: "mousemove",
+  touch: "touchmove"
+}
 let press = false,
   eraser = false,
   grilla = document.createDocumentFragment(),
@@ -16,7 +17,7 @@ let press = false,
   pickerColor = "",
   cursorPen = "";
 
-let currentColor = '#3c6084';
+let currentColor = '#000000';
 let hue = 0;
 
 let hsvSaturation = 1;
@@ -148,6 +149,7 @@ document.addEventListener("resize", () => {
 
 const colorIndicator = document.getElementById('options-color');
 const colorPicker = document.querySelector('.color-picker');
+const pickerContainer = document.querySelector('.picker-container');
 const buttonPicker = document.querySelector('.picker');
 
 const spectrumCanvas = document.getElementById('spectrum-canvas');
@@ -361,6 +363,19 @@ hex.addEventListener("input", (e) => {
 colorPicker.style.top = $picker.getBoundingClientRect().bottom + 5 + 'px';
 // colorPicker.style.left = $picker.getBoundingClientRect().left + 'px';
 
+// const closePicker = () => {
+//   colorPicker.classList.remove('show')
+//   $main.removeEventListener('click', closePicker);
+// }
 buttonPicker.addEventListener('click', (e) => {
-  colorPicker.classList.toggle('show')
+  colorPicker.classList.toggle('show');
+  // e.stopPropagation();
+  // pickerContainer.addEventListener('click', () => {
+  //   colorPicker.classList.remove('show');
+  //   $main.removeEventListener('click', closePicker);
+  // });
+})
+
+document.addEventListener('click', (e) => {
+
 })
