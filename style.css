@@ -38,11 +38,10 @@ main{
   flex-direction: column;
   gap: 20px;
   padding: 20px;
-  border: 1px solid #000000;
   box-shadow: 0px 0px 20px 0px #000000;
   user-select: none;
 }
-.title {font-family: 'depixel';font-weight: bold; font-size: 16px;}
+.title {font-family: 'depixel';font-weight: bold; font-size: 18px;}
 .menu {gap: 10px; position: relative;}
 button.sprite{
   height: 50px;
@@ -77,10 +76,17 @@ button.sprite{
   height: 35px;
   background-color: #000000;
 }
-.pickerText{
-  padding: 5px;
-  height: 30px;
-  border: 2px solid #000000;
+.picker__overlay{
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  /* border: 2px solid black; */
+  border-radius: 5px;
+  z-index: 2;
 }
 .canvas{
   display: grid;
@@ -164,19 +170,7 @@ button.sprite{
   height: 100vh;
   visibility: hidden;
 }
-.overlay__button{
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 35px;
-  height: 30px;
-  cursor: pointer;
-  /* border: 2px solid black; */
-  border-radius: 5px;
-  visibility: hidden;
-  z-index: 2;
-}
+
 .show{
   visibility: visible;
 }
@@ -309,7 +303,7 @@ button.sprite{
 
 .draw{
   background: url('img/pencil.svg');
-  background-size: 75%;
+  background-size: 70%;
   background-position: center;
   background-repeat: no-repeat;
 }

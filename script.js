@@ -29,15 +29,15 @@ const createPen = (pickerColor) => {
   $lienzo.style.cursor = `url(data:image/svg+xml;base64,${btoa(cursorPen)})0 16, auto`;
 }
 const draw = () => {
-  $menu.children[3].classList.remove("active");
-  $menu.children[2].classList.add("active");
+  $menu.children[2].classList.remove("active");
+  $menu.children[1].classList.add("active");
   createPen();
   $lienzo.classList.remove("cursorEraser")
   eraser = false;
 }
 const erase = () => {
-  $menu.children[2].classList.remove("active");
-  $menu.children[3].classList.add("active");
+  $menu.children[1].classList.remove("active");
+  $menu.children[2].classList.add("active");
   $lienzo.style.cursor = ""
   $lienzo.classList.add("cursorEraser")
   eraser = true
@@ -83,7 +83,7 @@ const makeGrid = () => {
 }
 
 const showHideGrid = () => {
-  $menu.children[5].classList.toggle("active");
+  $menu.children[4].classList.toggle("active");
   $lienzo.classList.toggle("noline");
 }
 
@@ -100,7 +100,6 @@ $menu.addEventListener("click", (e) => {
   else if (e.target.getAttribute("name") === "erase")
     erase();
   else if (e.target.getAttribute("name") === "clear") {
-    // e.preventDefault()
     clear();
   }
   else if (e.target.getAttribute("name") === "grid") {
@@ -362,14 +361,26 @@ hex.addEventListener("input", (e) => {
 
 colorPicker.style.top = $picker.getBoundingClientRect().bottom + 5 + 'px';
 
-buttonPicker.addEventListener('click', (e) => {
-  colorPicker.classList.toggle('show');
-  document.querySelector('.overlay').classList.toggle('show');
-})
+// buttonPicker.addEventListener('click', (e) => {
+//   colorPicker.classList.toggle('show');
+//   document.querySelector('.overlay').classList.toggle('show');
+// })
 
 document.addEventListener('click', (e) => {
-  if (e.target.getAttribute('data-value') === 'close') {
+
+  if (e.target.getAttribute("data-action") === "draw")
+    draw();
+  else if (e.target.getAttribute("data-action") === "erase")
+    erase();
+  else if (e.target.getAttribute("data-action") === "clear") {
+    clear();
+  }
+  else if (e.target.getAttribute("data-action") === "grid") {
+    showHideGrid();
+  }
+  if (e.target.getAttribute('data-action') === 'show-hide') {
     colorPicker.classList.toggle('show');
     document.querySelector('.overlay').classList.toggle('show');
+    document.querySelector('.overlay__button').classList.toggle('show');
   }
 })
