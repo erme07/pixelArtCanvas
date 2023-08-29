@@ -10,7 +10,8 @@
   --borderCanvas:#cccccc;
   --lineGrid:#cccccc45;
   --buttonHover:#cccccc;
-  --buttonActive:#825374;
+  /* --buttonActive:#825374; */
+  --buttonActive:#3a6186;
 }
 @font-face {
     font-family: 'depixel';
@@ -42,10 +43,10 @@ main{
   user-select: none;
 }
 .title {font-family: 'depixel';font-weight: bold; font-size: 16px;}
-.menu {height: 40px;gap: 10px;}
+.menu {gap: 10px; position: relative;}
 button.sprite{
-  height: 30px;
-  width: 60px;
+  height: 50px;
+  width: 50px;
   border: 2px solid #000000;
   font-family: 'depixel';
   font-size: 10px;
@@ -53,10 +54,15 @@ button.sprite{
   cursor: pointer;
   /* transition: all .2s; */
 }
-.active {background-color: var(--buttonActive); color: #ffffff;}
+.active {
+  /* background-color: var(--buttonActive); color: #ffffff; */
+  outline: 2px solid var(--buttonActive);
+  outline-offset: 2px;
+  box-shadow: inset 0px 0px 15px 1px var(--buttonActive)
+}
 .picker{
-  width: 35px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   border: 2px solid black;
   border-radius: 5px;
@@ -67,8 +73,8 @@ button.sprite{
 .picker__inner{
   border: 1px solid black;
   display: block;
-  width: 25px;
-  height: 18px;
+  width: 38px;
+  height: 35px;
   background-color: #000000;
 }
 .pickerText{
@@ -149,6 +155,27 @@ button.sprite{
   gap: 10px;
   padding-bottom: 20px;
   visibility: hidden;
+}
+.overlay{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  visibility: hidden;
+}
+.overlay__button{
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35px;
+  height: 30px;
+  cursor: pointer;
+  /* border: 2px solid black; */
+  border-radius: 5px;
+  visibility: hidden;
+  z-index: 2;
 }
 .show{
   visibility: visible;
@@ -277,4 +304,33 @@ button.sprite{
 }
 .hex--error{
   box-shadow: inset 0px 0px 5px 1px #ff0000;
+}
+
+
+.draw{
+  background: url('img/pencil.svg');
+  background-size: 75%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.erase{
+  background: url('img/eraser.svg');
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.trash{
+  background: url('img/trash.svg');
+  background-size: 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.grid{
+  background: url('img/grid.svg');
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
