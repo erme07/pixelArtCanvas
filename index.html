@@ -24,43 +24,41 @@
   <main class="flex-center">
     <h1 class="title">Pixel Art Canvas</h1>
     <section class="menu flex-center wrap">
-      <div  class="picker"><span class="picker__inner"></span></div>
-      <!-- <input type="text" class="pickerText" size="4" value="#000000"> -->
-      <button class="sprite active" name="draw">Draw</button>
-      <button class="sprite" name="erase">Erase</button>
-      <button class="sprite" name="clear">Clear</button>
-      <button class="sprite active" name="grid">Grid</button>
+      <div  class="picker" ><span class="picker__inner" title="Color"></span></div>
+      <span class="overlay__button" data-value="close"></span>
+      <button class="sprite active draw" name="draw" title="Draw"></button>
+      <button class="sprite erase" name="erase" title="Erase"></button>
+      <button class="sprite trash" name="clear" title="Clear"></button>
+      <button class="sprite grid active" name="grid" title="Grid"></button>
     </section>
     <section class="canvas"></section>
   </main>
-  <!-- <div class="picker-container">
-    </div> -->
-    <section class="color-picker" autofocus>
-  <div class="panel-spectrum" id="spectrum-map">
-    <button id="spectrum-cursor" class="cursor cursor--spectrum" style="left:0px; top:140px;"></button>
-    <canvas id="spectrum-canvas" class="panel-spectrum__canvas" width="300" height="140"></canvas>
-  </div>
-  <div class="panel-options">
-    <svg class="icon panel-options__eyedropper">
-      <use xlink:href="/img/icons.svg#icon-eyedropper"/>
-    </svg>
-    </a>
-    <div class="panel-options__color" id="options-color"></div>
-    <div class="panel-options__hue-map" id="hue-map">
-      <button id="hue-cursor" class="cursor cursor--color" style="left: 190px;"></button>
-      <canvas id="hue-canvas" class="hue-canvas" width="190" height="14"></canvas>
+  <div class="overlay" data-value="close"></div>
+  <section class="color-picker" autofocus>
+    <div class="panel-spectrum" id="spectrum-map">
+      <button id="spectrum-cursor" class="cursor cursor--spectrum" style="left:0px; top:140px;"></button>
+      <canvas id="spectrum-canvas" class="panel-spectrum__canvas" width="300" height="140"></canvas>
     </div>
-  </div>
-  <div class="panel-code">
-    <input type="text" id="hex" class="panel-code__hex" value="#000000" maxlength="7">
-    <div class="button button-copy">
-      <svg class="icon copy">
-        <use xlink:href="/img/icons.svg#icon-copy"/>
+    <div class="panel-options">
+      <svg class="icon panel-options__eyedropper">
+        <use xlink:href="/img/icons.svg#icon-eyedropper"/>
       </svg>
+      </a>
+      <div class="panel-options__color" id="options-color"></div>
+      <div class="panel-options__hue-map" id="hue-map">
+        <button id="hue-cursor" class="cursor cursor--color" style="left: 190px;"></button>
+        <canvas id="hue-canvas" class="hue-canvas" width="190" height="14"></canvas>
+      </div>
     </div>
-  </div>
-</section>
-  
-  
+    <div class="panel-code">
+      <input type="text" id="hex" class="panel-code__hex" value="#000000" maxlength="7">
+      <div class="button button-copy">
+        <svg class="icon copy">
+          <use xlink:href="/img/icons.svg#icon-copy"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
 </body>
 </html>
