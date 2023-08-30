@@ -1,14 +1,15 @@
 const $lienzo = document.querySelector(".canvas"),
   $menu = document.querySelector(".menu"),
+  $buttonDraw = document.querySelector("[data-action='draw']"),
+  $buttonEraser = document.querySelector("[data-action='erase']"),
+  $buttonGrid = document.querySelector("[data-action='grid']"),
   $picker = document.querySelector(".picker"),
-  $pickerInner = document.querySelector(".picker__inner"),
-  $pickerText = document.querySelector(".pickerText"),
+  $pickerColor = document.querySelector(".picker__color"),
   $body = document.querySelector("body"),
-  $main = document.querySelector("main");
-events = {
-  mouse: "mousemove",
-  touch: "touchmove"
-}
+  events = {
+    mouse: "mousemove",
+    touch: "touchmove"
+  };
 let press = false,
   eraser = false,
   grilla = document.createDocumentFragment(),
@@ -18,26 +19,25 @@ let press = false,
   cursorPen = "";
 
 let currentColor = '#000000';
-let hue = 0;
 
+let hue = 0;
 let hsvSaturation = 1;
 let hsvValue = 1;
 
-const createPen = (pickerColor) => {
-  pickerColor = currentColor;
-  cursorPen = `<svg width="18" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m 12.1,0.146 a 0.5,0.5 0 0 1 0.8,0 l 3,3.004 a 0.5,0.5 0 0 1 0,0.7 L 5.85,13.9 A 0.5,0.5 0 0 1 5.69,14 l -5.004,2 a 0.5,0.5 0 0 1 -0.65,-0.7 l 2.004,-5 a 0.5,0.5 0 0 1 0.11,-0.2 z" /><path d="M 11.2,2.5 13.5,4.79 14.8,3.5 12.5,1.21 Z" fill="#ffffff" /><path d="M 12.8,5.5 10.5,3.21 4,9.71 V 10 H 4.5 A 0.5,0.5 0 0 1 5,10.5 V 11 H 5.5 A 0.5,0.5 0 0 1 6,11.5 V 12 h 0.29 z" fill="#ffffff" /><path d="M 3.03,10.7 2.93,10.8 1.4,14.6 5.22,13.1 5.33,13 A 0.5,0.5 0 0 1 5,12.5 V 12 H 4.5 A 0.5,0.5 0 0 1 4,11.5 V 11 H 3.5 A 0.5,0.5 0 0 1 3.03,10.7 Z" fill="${pickerColor}" /></svg>`;
+const createPen = () => {
+  cursorPen = `<svg width="18" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m 12.1,0.146 a 0.5,0.5 0 0 1 0.8,0 l 3,3.004 a 0.5,0.5 0 0 1 0,0.7 L 5.85,13.9 A 0.5,0.5 0 0 1 5.69,14 l -5.004,2 a 0.5,0.5 0 0 1 -0.65,-0.7 l 2.004,-5 a 0.5,0.5 0 0 1 0.11,-0.2 z" /><path d="M 11.2,2.5 13.5,4.79 14.8,3.5 12.5,1.21 Z" fill="#ffffff" /><path d="M 12.8,5.5 10.5,3.21 4,9.71 V 10 H 4.5 A 0.5,0.5 0 0 1 5,10.5 V 11 H 5.5 A 0.5,0.5 0 0 1 6,11.5 V 12 h 0.29 z" fill="#ffffff" /><path d="M 3.03,10.7 2.93,10.8 1.4,14.6 5.22,13.1 5.33,13 A 0.5,0.5 0 0 1 5,12.5 V 12 H 4.5 A 0.5,0.5 0 0 1 4,11.5 V 11 H 3.5 A 0.5,0.5 0 0 1 3.03,10.7 Z" fill="${currentColor}" /></svg>`;
   $lienzo.style.cursor = `url(data:image/svg+xml;base64,${btoa(cursorPen)})0 16, auto`;
 }
 const draw = () => {
-  $menu.children[2].classList.remove("active");
-  $menu.children[1].classList.add("active");
+  $buttonEraser.classList.remove("active");
+  $buttonDraw.classList.add("active");
   createPen();
   $lienzo.classList.remove("cursorEraser")
   eraser = false;
 }
 const erase = () => {
-  $menu.children[1].classList.remove("active");
-  $menu.children[2].classList.add("active");
+  $buttonDraw.classList.remove("active");
+  $buttonEraser.classList.add("active");
   $lienzo.style.cursor = ""
   $lienzo.classList.add("cursorEraser")
   eraser = true
@@ -56,11 +56,9 @@ const detectDevice = () => {
   try {
     document.createEvent("TouchEvent");
     deviceType = "touch";
-    $menu.classList.remove("menu--desktop")
     return true;
   } catch (e) {
     deviceType = "mouse";
-    $menu.classList.add("menu--desktop")
     return false;
   }
 }
@@ -83,7 +81,7 @@ const makeGrid = () => {
 }
 
 const showHideGrid = () => {
-  $menu.children[4].classList.toggle("active");
+  $buttonGrid.classList.toggle("active");
   $lienzo.classList.toggle("noline");
 }
 
@@ -94,30 +92,22 @@ makeGrid();
 
 $lienzo.appendChild(grilla);
 
-$menu.addEventListener("click", (e) => {
-  if (e.target.getAttribute("name") === "draw")
-    draw();
-  else if (e.target.getAttribute("name") === "erase")
-    erase();
-  else if (e.target.getAttribute("name") === "clear") {
-    clear();
-  }
-  else if (e.target.getAttribute("name") === "grid") {
-    showHideGrid();
-  }
-})
+
 
 $lienzo.addEventListener("mousedown", (e) => {
   press = true;
   if (!eraser)
-    e.target.style.backgroundColor = currentColor
+    e.target.style.backgroundColor = currentColor;
   else
-    e.target.style.backgroundColor = "transparent"
+    e.target.style.backgroundColor = "transparent";
+
 })
 
 document.addEventListener("mouseup", (e) => {
   press = false;
 })
+
+
 
 $lienzo.addEventListener(events[deviceType], (e) => {
 
@@ -146,10 +136,7 @@ document.addEventListener("resize", () => {
 
 
 
-const colorIndicator = document.getElementById('options-color');
 const colorPicker = document.querySelector('.color-picker');
-const pickerContainer = document.querySelector('.picker-container');
-const buttonPicker = document.querySelector('.picker');
 
 const spectrumCanvas = document.getElementById('spectrum-canvas');
 const spectrumMap = document.getElementById('spectrum-map');
@@ -163,9 +150,6 @@ const hueCtx = hueCanvas.getContext('2d');
 const hueCursor = document.getElementById('hue-cursor');
 let hueRect = hueCanvas.getBoundingClientRect();
 
-
-
-const gg = document.querySelector(".button-copy")
 const hex = document.getElementById('hex');
 
 
@@ -228,13 +212,11 @@ const setColorValues = (color) => {
 
 const setCurrentColor = (color) => {
   currentColor = color;
-  colorIndicator.style.backgroundColor = color;
-  $pickerInner.style.backgroundColor = color;
+  $pickerColor.style.backgroundColor = color;
 };
 
 const updateHueCursor = (x, color) => {
   hueCursor.style.left = x + "px";
-  // hueCursor.style.backgroundColor = color;
 }
 
 const updateSpectrumCursor = (x, y) => {
@@ -243,11 +225,9 @@ const updateSpectrumCursor = (x, y) => {
 };
 
 const startGetSpectrumColor = (e) => {
-  document.body.classList.add("bodyMove");
+  $body.classList.add("bodyMove");
   hueCanvas.classList.add("bodyMove");
   hueCursor.classList.add("bodyMove");
-  $lienzo.style.cursor = ``;
-  // document.body.style.cursor = 'move';
   getSpectrumColor(e);
   document.addEventListener('mousemove', getSpectrumColor);
   document.addEventListener('mouseup', endGetSpectrumColor);
@@ -286,8 +266,8 @@ function endGetSpectrumColor(e) {
   document.removeEventListener('mousemove', getSpectrumColor);
   hueCanvas.classList.remove("bodyMove");
   hueCursor.classList.remove("bodyMove");
-  document.body.classList.remove("bodyMove")
-  createPen();
+  $body.classList.remove("bodyMove")
+  if (!eraser) createPen();
 };
 
 
@@ -315,23 +295,18 @@ const endGetHueColor = (e) => {
   document.removeEventListener('mousemove', getHueColor);
   spectrumCanvas.classList.remove("bodyEresize");
   spectrumCursor.classList.remove("bodyEresize");
-  document.body.classList.remove("bodyEresize")
+  $body.classList.remove("bodyEresize")
 };
 
 const startGetHueColor = (e) => {
-  document.body.classList.add("bodyEresize");
+  $body.classList.add("bodyEresize");
   spectrumCanvas.classList.add("bodyEresize");
   spectrumCursor.classList.add("bodyEresize");
-  $lienzo.style.cursor = ``;
   getHueColor(e);
   document.addEventListener('mousemove', getHueColor);
   document.addEventListener('mouseup', endGetHueColor);
 }
 
-
-gg.addEventListener("click", (e) => {
-  navigator.clipboard.writeText(hex.value);
-})
 
 
 createSpectrum();
@@ -359,12 +334,9 @@ hex.addEventListener("input", (e) => {
   colorToPos(go.toHexString());
 })
 
-colorPicker.style.top = $picker.getBoundingClientRect().bottom + 5 + 'px';
+colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 15 + 'px';
 
-// buttonPicker.addEventListener('click', (e) => {
-//   colorPicker.classList.toggle('show');
-//   document.querySelector('.overlay').classList.toggle('show');
-// })
+
 
 document.addEventListener('click', (e) => {
 
@@ -372,15 +344,17 @@ document.addEventListener('click', (e) => {
     draw();
   else if (e.target.getAttribute("data-action") === "erase")
     erase();
-  else if (e.target.getAttribute("data-action") === "clear") {
+  else if (e.target.getAttribute("data-action") === "clear")
     clear();
-  }
-  else if (e.target.getAttribute("data-action") === "grid") {
+  else if (e.target.getAttribute("data-action") === "grid")
     showHideGrid();
+  else if (e.target.getAttribute("data-action") === "copy") {
+    navigator.clipboard.writeText(hex.value);
   }
+
   if (e.target.getAttribute('data-action') === 'show-hide') {
     colorPicker.classList.toggle('show');
     document.querySelector('.overlay').classList.toggle('show');
-    document.querySelector('.overlay__button').classList.toggle('show');
+    document.querySelector('.picker__overlay').classList.toggle('show');
   }
 })
