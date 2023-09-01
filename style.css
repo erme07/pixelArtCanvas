@@ -122,8 +122,6 @@ main{
 
 /*::::::: Styles for colorpicker :::::::*/
 
-.bodyMove {cursor: move;}
-.bodyEresize {cursor: e-resize;}
 .color-picker {
   width: 300px;
   background-color: var(--boxColor);
@@ -220,7 +218,8 @@ main{
 .panel-code__hex:focus-visible {outline: 0;}
 .panel-code__hex:focus-visible.hex--succes {box-shadow: inset 0px 0px 10px 0px green;}
 .hex--error {box-shadow: inset 0px 0px 10px 0px red;}
-
+.bodyMove {cursor: move;}
+.bodyEresize {cursor: e-resize;}
 /*::::::::::::::::: styles for clear confirmation:::::::::::::::::::*/
 
 .confirm{
