@@ -5,7 +5,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pixel Art Canvas</title>
-  <!-- <link rel="preload" href="/font/DePixelHalbfett.otf" as="font" type="font/otf" crossorigin> -->
   <link rel="stylesheet" href="style.css">
   <script src='https://cdnjs.cloudflare.com/ajax/libs/tinycolor/1.3.0/tinycolor.min.js' defer></script>
   <script src="js/main.js" defer></script>
@@ -24,14 +23,14 @@
   <main class="flex-center">
     <h1 class="title">Pixel Art Canvas</h1>
     <section class="menu flex-center wrap">
-      <div  class="picker" >
-        <span class="picker__color"></span>
+      <div class="picker flex-center" data-action="show-hide">
+        <span class="picker__color" data-action="show-hide" title="Color"></span>
         <span class="picker__overlay" data-action="show-hide" title="Color"></span>
       </div>
-      <button class="sprite active draw" data-action="draw" title="Draw"></button>
-      <button class="sprite erase" data-action="erase" title="Erase"></button>
-      <button class="sprite trash" data-action="clear" title="Clear"></button>
-      <button class="sprite grid active" data-action="grid" title="Grid"></button>
+      <button class="menu__button menu__button--draw active" data-action="draw" title="Draw"></button>
+      <button class="menu__button menu__button--erase" data-action="erase" title="Erase"></button>
+      <button class="menu__button menu__button--trash" data-action="clear" title="Clear"></button>
+      <button class="menu__button menu__button--grid active" data-action="grid" title="Grid"></button>
     </section>
     <section class="canvas"></section>
   </main>
@@ -41,7 +40,7 @@
       <button id="spectrum-cursor" class="cursor cursor--spectrum" style="left:0px; top:140px;"></button>
       <canvas id="spectrum-canvas" class="panel-spectrum__canvas" width="300" height="140"></canvas>
     </div>
-    <div class="panel-options">
+    <div class="panel-options flex-center">
       <svg class="icon panel-options__eyedropper">
         <use xlink:href="/img/icons.svg#icon-eyedropper"/>
       </svg>
@@ -51,15 +50,20 @@
         <canvas id="hue-canvas" class="hue-canvas" width="220" height="14"></canvas>
       </div>
     </div>
-    <div class="panel-code">
+    <div class="flex-center">
       <input type="text" id="hex" class="panel-code__hex" value="#000000" maxlength="7">
-      <div class="button button-copy"data-action="copy">
-        <svg class="icon copy" data-action="copy">
+      <div class="button button-copy flex-center"data-action="copy">
+        <svg class="icon icon--copy" data-action="copy">
           <use xlink:href="/img/icons.svg#icon-copy" data-action="copy"/>
         </svg>
       </div>
     </div>
   </section>
-
+  <div class="overlay overlay--confirm"></div>
+  <div class="confirm flex-center wrap" id="cleanConfirm">
+    <p class="confirm__message">Clean the canvas?</p>
+    <button class="confirm__button" data-value="accept">Yes</button>
+    <button class="confirm__button" data-value="cancel">No</button>
+  </div>
 </body>
 </html>
