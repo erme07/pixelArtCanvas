@@ -59,7 +59,7 @@ main{
   flex-direction: column;
   gap: 20px;
   background-color: var(--boxColor);
-  box-shadow: 0px 0px 20px 0px #000000;
+  box-shadow: 0px 0px 20px 0px black;
   user-select: none;
 }
 .title {font-weight: bold; font-size: 18px;}
@@ -71,7 +71,7 @@ main{
 .menu__button{
   height: 50px;
   width: 50px;
-  border: 2px solid #000000;
+  border: 2px solid black;
   border-radius: 5px;
   cursor: pointer;
   background-position: center;
@@ -132,7 +132,7 @@ main{
   transform: translate(-50%, 0%);
   padding-bottom: 20px;
   border-radius: 0 0 8px 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .4);
+  box-shadow: 0 4px 12px #00000066;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -192,7 +192,7 @@ main{
   margin-top: -3px;
   margin-left: -10px;
   background-color: #ececec;
-  border: 1px solid rgb(116, 116, 116);
+  border: 1px solid #747474;
   cursor:e-resize;
 }
 .button-copy{
@@ -214,12 +214,12 @@ main{
   font-family: monospace;
   font-size: 15px;
   background-color: transparent;
-  color: #000000;
+  color: black;
   text-align: center;
 }
 .panel-code__hex:focus-visible {outline: 0;}
-.panel-code__hex:focus-visible.hex--succes {box-shadow: inset 0px 0px 5px 0px #00FF00;}
-.hex--error {box-shadow: inset 0px 0px 5px 1px #ff0000;}
+.panel-code__hex:focus-visible.hex--succes {box-shadow: inset 0px 0px 10px 0px green;}
+.hex--error {box-shadow: inset 0px 0px 10px 0px red;}
 
 /*::::::::::::::::: styles for clear confirmation:::::::::::::::::::*/
 
