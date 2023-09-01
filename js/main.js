@@ -30,6 +30,7 @@ let hueRect = $hueCanvas.getBoundingClientRect(),
   hue = 0,
   hsvSaturation = 1,
   hsvValue = 1,
+  press = false,
   eraser = false,
   currentColor = '#000000';
 
@@ -92,21 +93,24 @@ const showHideGrid = () => {
   $lienzo.classList.toggle("noline");
 }
 
-const startDraw = () => {
-  if (deviceType === 'touchmove') {
-    event.preventDefault()
-    let elementId = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY).id;
-    if (!eraser)
-      document.getElementById(elementId).style.backgroundColor = currentColor;
-    else
-      document.getElementById(elementId).style.backgroundColor = "transparent"
-  } else {
-    if (!eraser)
-      event.target.style.backgroundColor = currentColor
-    else
-      event.target.style.backgroundColor = "transparent"
-  }
-}
+// const startDraw = () => {
+
+//   if (deviceType === 'touchmove') {
+//     console.log('dentrooo')
+//     event.preventDefault()
+//     let elementId = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY).id;
+//     if (!eraser)
+//       document.getElementById(elementId).style.backgroundColor = currentColor;
+//     else
+//       document.getElementById(elementId).style.backgroundColor = "transparent";
+//   } else {
+//     console.log('dentrooo')
+//     if (!eraser)
+//       event.target.style.backgroundColor = currentColor
+//     else
+//       event.target.style.backgroundColor = "transparent"
+//   }
+// }
 
 /////
 
@@ -174,16 +178,24 @@ const colorToPos = (color) => {
   createSpectrum(tinycolor('hsv ' + hue + ' 1 1').toHexString());
 }
 
-const starGetData = (classCursor, action) => {
-  $body.classList.add(classCursor);
-  $spectrumCanvas.classList.add(classCursor);
-  $spectrumCursor.classList.add(classCursor);
-  $hueCanvas.classList.add(classCursor);
-  $hueCursor.classList.add(classCursor);
-  action(event);
-  document.addEventListener('mousemove', action);
+const startGetSpectrum = (e) => {
+  $body.classList.add('bodyMove');
+  $spectrumCanvas.classList.add('bodyMove');
+  $spectrumCursor.classList.add('bodyMove');
+  $hueCanvas.classList.add('bodyMove');
+  $hueCursor.classList.add('bodyMove');
+  getSpectrumColor(e)
+  // document.addEventListener('mousemove', getSpectrumColor);
 }
-
+const startGetHue = (e) => {
+  $body.classList.add('bodyEresize');
+  $spectrumCanvas.classList.add('bodyEresize');
+  $spectrumCursor.classList.add('bodyEresize');
+  $hueCanvas.classList.add('bodyEresize');
+  $hueCursor.classList.add('bodyEresize');
+  getHueColor(e)
+  // document.addEventListener('mousemove', getHueColor);
+}
 const getPositionColor = () => {
   let cordX = Number($spectrumCursor.style.left.replace("px", ""));
   let cordY = Number($spectrumCursor.style.top.replace("px", ""));;
@@ -197,8 +209,16 @@ const getPositionColor = () => {
 const getSpectrumColor = (e) => {
   e.preventDefault();
   refreshElementRects();
-  let x = e.pageX - spectrumRect.left;
-  let y = e.pageY - spectrumRect.top;
+  let x = 0, y = 0;
+  if (e.type === 'touchmove') {
+    x = e.touches[0].clientX - spectrumRect.left;
+    y = e.touches[0].clientY - spectrumRect.top;
+  }
+  else {
+    x = e.pageX - spectrumRect.left;
+    y = e.pageY - spectrumRect.top;
+  }
+
   if (x > spectrumRect.width) { x = spectrumRect.width }
   if (x < 0) { x = 0 }
   if (y > spectrumRect.height) { y = spectrumRect.height }
@@ -212,7 +232,11 @@ const getSpectrumColor = (e) => {
 const getHueColor = (e) => {
   e.preventDefault();
   refreshElementRects();
-  let x = e.pageX - hueRect.left;
+  let x = 0
+  if (e.type === 'touchmove')
+    x = e.touches[0].clientX - hueRect.left;
+  else
+    x = e.pageX - hueRect.left;
   if (x > hueRect.width) x = hueRect.width;
   if (x < 0) x = 0;
   const percent = x / hueRect.width;
@@ -225,9 +249,9 @@ const getHueColor = (e) => {
   setColorValues(color);
 };
 
-
-createPen();
 deviceType = detectDevice();
+createPen();
+
 makeGrid();
 $lienzo.appendChild(grid);
 $colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 16 + 'px';
@@ -238,17 +262,38 @@ createHue();
 //////////
 
 $lienzo.addEventListener("mousedown", (e) => {
+  press = true;
   if (!eraser)
     e.target.style.backgroundColor = currentColor;
   else
     e.target.style.backgroundColor = "transparent";
-  $lienzo.addEventListener(deviceType, startDraw)
 })
 
+
+$lienzo.addEventListener(deviceType, (e) => {
+
+  if (deviceType === 'touchmove') {
+    e.preventDefault()
+    let elementId = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).id;
+    if (!eraser && elementId)
+      document.getElementById(elementId).style.backgroundColor = currentColor;
+    else if (eraser && elementId)
+      document.getElementById(elementId).style.backgroundColor = "transparent"
+
+  } else {
+    if (press && !eraser && e.target.classList.contains("cell"))
+      e.target.style.backgroundColor = currentColor
+    else if (press && eraser && e.target.classList.contains("cell"))
+      e.target.style.backgroundColor = "transparent"
+  }
+})
+
+
 document.addEventListener("mouseup", (e) => {
-  $lienzo.removeEventListener(deviceType, startDraw);
-  document.removeEventListener(deviceType, getSpectrumColor);
-  document.removeEventListener(deviceType, getHueColor);
+  press = false
+  // $lienzo.removeEventListener(deviceType, startDraw);
+  // document.removeEventListener(deviceType, getSpectrumColor);
+  // document.removeEventListener(deviceType, getHueColor);
   $body.classList.remove('bodyMove', 'bodyEresize');
   $spectrumCanvas.classList.remove('bodyMove', 'bodyEresize');
   $spectrumCursor.classList.remove('bodyMove', 'bodyEresize');
@@ -291,12 +336,30 @@ document.addEventListener('click', (e) => {
 })
 
 $spectrumMap.addEventListener('mousedown', (e) => {
-  starGetData('bodyMove', getSpectrumColor)
+  // starGetData('bodyMove', getSpectrumColor)
+  press = true;
+  startGetSpectrum(e)
 });
 
-$hueMap.addEventListener('mousedown', function (e) {
-  starGetData('bodyEresize', getHueColor)
+$spectrumMap.addEventListener(deviceType, (e) => {
+  if (e.type === 'mousemove' && press)
+    getSpectrumColor(e);
+  if (e.type === 'touchmove')
+    getSpectrumColor(e);
+})
+
+$hueMap.addEventListener('mousedown', (e) => {
+  // starGetData('bodyEresize', getHueColor)
+  press = true;
+  startGetHue(e);
 });
+
+$hueMap.addEventListener(deviceType, (e) => {
+  if (e.type === 'mousemove' && press)
+    getHueColor(e);
+  if (e.type === 'touchmove')
+    getHueColor(e);
+})
 
 $hex.addEventListener("input", (e) => {
   let color = tinycolor($hex.value);
