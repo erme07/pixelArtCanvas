@@ -93,25 +93,6 @@ const showHideGrid = () => {
   $lienzo.classList.toggle("noline");
 }
 
-// const startDraw = () => {
-
-//   if (deviceType === 'touchmove') {
-//     console.log('dentrooo')
-//     event.preventDefault()
-//     let elementId = document.elementFromPoint(event.touches[0].clientX, event.touches[0].clientY).id;
-//     if (!eraser)
-//       document.getElementById(elementId).style.backgroundColor = currentColor;
-//     else
-//       document.getElementById(elementId).style.backgroundColor = "transparent";
-//   } else {
-//     console.log('dentrooo')
-//     if (!eraser)
-//       event.target.style.backgroundColor = currentColor
-//     else
-//       event.target.style.backgroundColor = "transparent"
-//   }
-// }
-
 /////
 
 const refreshElementRects = () => {
@@ -153,18 +134,16 @@ const updateSpectrumCursor = (x, y) => {
   $spectrumCursor.style.top = y + 'px';
 };
 
-const updateHueCursor = (x) => {
-  $hueCursor.style.left = x + "px";
-}
+const updateHueCursor = (x) => $hueCursor.style.left = x + "px";
+
 
 const setCurrentColor = (color) => {
   currentColor = color;
   $pickerColor.style.backgroundColor = currentColor;
 }
 
-const setColorValues = (color) => {
-  $hex.value = color;
-}
+const setColorValues = (color) => $hex.value = color;
+
 
 const colorToPos = (color) => {
   const hsv = tinycolor(color).toHsv();
@@ -185,8 +164,8 @@ const startGetSpectrum = (e) => {
   $hueCanvas.classList.add('bodyMove');
   $hueCursor.classList.add('bodyMove');
   getSpectrumColor(e)
-  // document.addEventListener('mousemove', getSpectrumColor);
 }
+
 const startGetHue = (e) => {
   $body.classList.add('bodyEresize');
   $spectrumCanvas.classList.add('bodyEresize');
@@ -194,8 +173,8 @@ const startGetHue = (e) => {
   $hueCanvas.classList.add('bodyEresize');
   $hueCursor.classList.add('bodyEresize');
   getHueColor(e)
-  // document.addEventListener('mousemove', getHueColor);
 }
+
 const getPositionColor = () => {
   let cordX = Number($spectrumCursor.style.left.replace("px", ""));
   let cordY = Number($spectrumCursor.style.top.replace("px", ""));;
@@ -218,7 +197,6 @@ const getSpectrumColor = (e) => {
     x = e.pageX - spectrumRect.left;
     y = e.pageY - spectrumRect.top;
   }
-
   if (x > spectrumRect.width) { x = spectrumRect.width }
   if (x < 0) { x = 0 }
   if (y > spectrumRect.height) { y = spectrumRect.height }
@@ -249,6 +227,27 @@ const getHueColor = (e) => {
   setColorValues(color);
 };
 
+const eyeDropper = () => {
+  if ('EyeDropper' in window) {
+    const eyeDropper = new window.EyeDropper();
+    eyeDropper
+      .open()
+      .then((result) => {
+        $colorPicker.classList.toggle('show');
+        colorToPos(result.sRGBHex);
+        setColorValues(currentColor);
+      })
+      .catch(e => {
+        console.warn('canceled')
+        $colorPicker.classList.toggle('show');
+      });
+  } else {
+    $colorPicker.classList.toggle('show');
+    console.warn('No Support: This browser does not support the EyeDropper API yet!');
+    alert("This browser does not support the EyeDropper function");
+  }
+}
+
 deviceType = detectDevice();
 createPen();
 
@@ -269,7 +268,6 @@ $lienzo.addEventListener("mousedown", (e) => {
     e.target.style.backgroundColor = "transparent";
 })
 
-
 $lienzo.addEventListener(deviceType, (e) => {
 
   if (deviceType === 'touchmove') {
@@ -279,7 +277,6 @@ $lienzo.addEventListener(deviceType, (e) => {
       document.getElementById(elementId).style.backgroundColor = currentColor;
     else if (eraser && elementId)
       document.getElementById(elementId).style.backgroundColor = "transparent"
-
   } else {
     if (press && !eraser && e.target.classList.contains("cell"))
       e.target.style.backgroundColor = currentColor
@@ -291,9 +288,6 @@ $lienzo.addEventListener(deviceType, (e) => {
 
 document.addEventListener("mouseup", (e) => {
   press = false
-  // $lienzo.removeEventListener(deviceType, startDraw);
-  // document.removeEventListener(deviceType, getSpectrumColor);
-  // document.removeEventListener(deviceType, getHueColor);
   $body.classList.remove('bodyMove', 'bodyEresize');
   $spectrumCanvas.classList.remove('bodyMove', 'bodyEresize');
   $spectrumCursor.classList.remove('bodyMove', 'bodyEresize');
@@ -333,10 +327,13 @@ document.addEventListener('click', (e) => {
   }
   else if (e.target.getAttribute("data-action") === "copy")
     navigator.clipboard.writeText($hex.value);
+  else if (e.target.getAttribute('data-action') === 'eyeDropper') {
+    $colorPicker.classList.toggle('show');
+    eyeDropper();
+  }
 })
 
 $spectrumMap.addEventListener('mousedown', (e) => {
-  // starGetData('bodyMove', getSpectrumColor)
   press = true;
   startGetSpectrum(e)
 });
@@ -349,7 +346,6 @@ $spectrumMap.addEventListener(deviceType, (e) => {
 })
 
 $hueMap.addEventListener('mousedown', (e) => {
-  // starGetData('bodyEresize', getHueColor)
   press = true;
   startGetHue(e);
 });
@@ -364,12 +360,10 @@ $hueMap.addEventListener(deviceType, (e) => {
 $hex.addEventListener("input", (e) => {
   let color = tinycolor($hex.value);
   if (color.isValid()) {
-    // $hex.classList.replace("hex--error", "hex--succes")
     $hex.classList.remove("hex--error")
     $hex.classList.add("hex--succes")
   }
   else {
-    // $hex.classList.replace("hex--succes", "hex--error")
     $hex.classList.remove("hex--succes")
     $hex.classList.add("hex--error")
   }
