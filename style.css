@@ -177,7 +177,7 @@ main{
   width:20px;
   height:20px;
 }
-.panel-options__eyedropper {flex-basis: 20px;}
+.panel-options__eyedropper {flex-basis: 20px;cursor: pointer;}
 .panel-options__hue-map {
   flex-basis: 220px;
   height: 14px;
