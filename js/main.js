@@ -1,6 +1,5 @@
 
-const $lienzo = document.querySelector(".canvas"),
-  $buttonDraw = document.querySelector("[data-action='draw']"),
+const $buttonDraw = document.querySelector("[data-action='draw']"),
   $buttonEraser = document.querySelector("[data-action='erase']"),
   $buttonGrid = document.querySelector("[data-action='grid']"),
   $pickerColor = document.querySelector(".picker__color"),
@@ -8,8 +7,10 @@ const $lienzo = document.querySelector(".canvas"),
   $body = document.querySelector("body"),
   cuadricula = document.getElementById("grid");
 
-const mainCanvas = document.getElementById('canvas');
-const drawingContext = mainCanvas.getContext("2d");
+const mainCanvas = document.getElementById('canvas'),
+  drawingContext = mainCanvas.getContext("2d");
+
+
 
 let grid = document.createDocumentFragment(),
   deviceType = "",
@@ -54,7 +55,6 @@ const erase = () => {
   $buttonEraser.classList.add("active");
   mainCanvas.style.cursor = ""
   mainCanvas.classList.add("cursorEraser")
-
   eraser = true
 }
 const clear = () => {
@@ -65,7 +65,6 @@ const clear = () => {
   document.querySelector('.overlay--confirm').classList.toggle('show');
   eraser = false;
 }
-
 const detectDevice = () => {
   try {
     document.createEvent("TouchEvent");
@@ -74,37 +73,36 @@ const detectDevice = () => {
     return 'mousemove';
   }
 }
+const setWidth = (widthValue, heightValue) => {
+  mainCanvas.width = widthValue;
+  mainCanvas.height = heightValue;
+}
 const detectWidth = () => {
   if ($body.clientWidth >= 768) {
-    mainCanvas.width = 720;
-    mainCanvas.height = 440;
+    setWidth(720, 440);
     return 90;
   } else if ($body.clientWidth >= 576) {
-    mainCanvas.width = 530;
-    mainCanvas.height = 380;
+    setWidth(530, 380);
     return 53;
-  }
-  else {
-    mainCanvas.width = 260;
-    mainCanvas.height = 380;
+  } else {
+    setWidth(260, 380);
     return 26;
   }
-
 }
-
-const makeGrid = () => {
-  for (let i = 0; i < detectWidth(); i++) {
-    const celda = document.createElement("DIV");
-    celda.classList.add("cell")
-    celda.id = `cell${i + 1}`
-    grid.appendChild(celda)
-  }
-}
-
 const showHideGrid = () => {
   $buttonGrid.classList.toggle("active");
-  // $lienzo.classList.toggle("noline");
   cuadricula.classList.toggle("grid--active");
+}
+const fillCell = (x, y) => {
+  const cellX = Math.floor(x / cellPixelLength);
+  const cellY = Math.floor(y / cellPixelLength);
+  const startX = cellX * cellPixelLength;
+  const startY = cellY * cellPixelLength;
+  if (!eraser)
+    drawingContext.fillStyle = currentColor;
+  else
+    drawingContext.fillStyle = "#ffffff";
+  drawingContext.fillRect(startX, startY, cellPixelLength, cellPixelLength);
 }
 
 /////
@@ -126,8 +124,7 @@ const createSpectrum = (color = '#ff0000') => {
   ctx.fillRect(0, 0, $spectrumCanvas.width, $spectrumCanvas.height);
   ctx.fillStyle = blackGradient;
   ctx.fillRect(0, 0, $spectrumCanvas.width, $spectrumCanvas.height);
-
-};
+}
 
 const createHue = () => {
   const ctx = hueCtx;
@@ -146,10 +143,9 @@ const createHue = () => {
 const updateSpectrumCursor = (x, y) => {
   $spectrumCursor.style.left = x + 'px';
   $spectrumCursor.style.top = y + 'px';
-};
+}
 
 const updateHueCursor = (x) => $hueCursor.style.left = x + "px";
-
 
 const setCurrentColor = (color) => {
   currentColor = color;
@@ -157,7 +153,6 @@ const setCurrentColor = (color) => {
 }
 
 const setColorValues = (color) => $hex.value = color;
-
 
 const colorToPos = (color) => {
   const hsv = tinycolor(color).toHsv();
@@ -219,7 +214,7 @@ const getSpectrumColor = (e) => {
   const color = getPositionColor();
   setCurrentColor(color);
   setColorValues(color);
-};
+}
 
 const getHueColor = (e) => {
   e.preventDefault();
@@ -239,7 +234,7 @@ const getHueColor = (e) => {
   updateHueCursor(x, hueColor);
   setCurrentColor(color);
   setColorValues(color);
-};
+}
 
 const eyeDropper = () => {
   if ('EyeDropper' in window) {
@@ -265,10 +260,11 @@ const eyeDropper = () => {
 
 deviceType = detectDevice();
 let pixelNumber = detectWidth();
+drawingContext.fillStyle = "#ffffff";
+drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+let cellPixelLength = mainCanvas.width / pixelNumber;
 createPen();
 
-// makeGrid();
-// $lienzo.appendChild(grid);
 $colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 16 + 'px';
 
 createSpectrum();
@@ -276,66 +272,28 @@ createHue();
 
 //////////
 
-const fillCell = (cellX, cellY) => {
-  const startX = cellX * cellPixelLength;
-  const startY = cellY * cellPixelLength;
-
-  drawingContext.fillStyle = currentColor;
-  drawingContext.fillRect(startX, startY, cellPixelLength, cellPixelLength);
-}
-
-const clearCell = (cellX, cellY) => {
-  const startX = cellX * cellPixelLength;
-  const startY = cellY * cellPixelLength;
-
-  drawingContext.fillStyle = "#ffffff";
-  drawingContext.fillRect(startX, startY, cellPixelLength, cellPixelLength);
-}
-
-
-
-const cellPixelLength = mainCanvas.width / pixelNumber;
-
-drawingContext.fillStyle = "#ffffff";
-drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
-
 mainCanvas.addEventListener("mousedown", (e) => {
-
-  if (e.button !== 0) return;
-  press = true;
   const canvasBoundingRect = mainCanvas.getBoundingClientRect();
   const x = e.clientX - canvasBoundingRect.left;
   const y = e.clientY - canvasBoundingRect.top;
-  const cellX = Math.floor(x / cellPixelLength);
-  const cellY = Math.floor(y / cellPixelLength);
-  if (!eraser)
-    fillCell(cellX, cellY);
-  else
-    clearCell(cellX, cellY);
+  if (e.button !== 0) return;
+  press = true;
+  fillCell(x, y);
 })
 
 mainCanvas.addEventListener(deviceType, (e) => {
-
-  if (deviceType === 'touchmove') {
+  const canvasBoundingRect = mainCanvas.getBoundingClientRect();
+  if (e.type === 'touchmove') {
     e.preventDefault()
-
-    if (!eraser)
-      fillCell(e.touches[0].clientX, e.touches[0].clientY)
-    else if (eraser)
-      clearCell(e.touches[0].clientX, e.touches[0].clientY)
+    const x = e.touches[0].clientX - canvasBoundingRect.left;
+    const y = e.touches[0].clientY - canvasBoundingRect.top;
+    fillCell(x, y);
   } else {
-    const canvasBoundingRect = mainCanvas.getBoundingClientRect();
     const x = e.clientX - canvasBoundingRect.left;
     const y = e.clientY - canvasBoundingRect.top;
-    const cellX = Math.floor(x / cellPixelLength);
-    const cellY = Math.floor(y / cellPixelLength);
-    if (press && !eraser)
-      fillCell(cellX, cellY)
-    else if (press && eraser)
-      clearCell(cellX, cellY);
+    if (press) fillCell(x, y)
   }
 })
-
 
 document.addEventListener("mouseup", (e) => {
   press = false
@@ -347,7 +305,11 @@ document.addEventListener("mouseup", (e) => {
   if (!eraser) createPen();
 })
 
-document.addEventListener("resize", () => {
+window.addEventListener("resize", () => {
+  pixelNumber = detectWidth();
+  cellPixelLength = mainCanvas.width / pixelNumber
+  drawingContext.fillStyle = "#ffffff";
+  drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
   $colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 16 + 'px';
 })
 
