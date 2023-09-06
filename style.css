@@ -8,8 +8,7 @@
   --gradientEnd:#3a6186;
   --boxColor:#f0f0f0;
   --borderCanvas:#cccccc;
-  --lineGrid:#cccccc45;
-  --buttonHover:#cccccc;
+  --lineGrid:#99999945;
   --borderPicker:#8a8a8a;
   --buttonActive:#3a6186;
 }
@@ -122,15 +121,12 @@ main{
   inset: 0;
 }
 .grid--active{
-  background-image: linear-gradient(#99999945 1px, transparent 0px), linear-gradient(to right, #99999945 1px, transparent 0px);
+  background-image: linear-gradient(var(--lineGrid) 1px, transparent 0px), linear-gradient(to right, var(--lineGrid) 1px, transparent 0px);
   background-size: 8px 8px;
   background-origin: border-box;
   background-position: left -0.5px top -0.5px;
 }
 .cursorEraser {cursor: url('data:image/svg+xml;utf8,<svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m 16.2,3.56 5,4.94 c 0.8,0.79 0.8,2.1 0,2.8 L 12,20.5 c -1.6,1.6 -4.09,1.6 -5.66,0 L 2.81,17 c -0.78,-0.8 -0.78,-2 0,-2.8 L 13.4,3.56 c 0.8,-0.78 2.1,-0.78 2.8,0" /><path d="m 4.22,15.6 3.54,3.5 c 0.78,0.8 2.04,0.8 2.84,0 l 3.5,-3.5 -4.93,-5 z" fill="%23ffffff" /></svg>')4 16, auto;}
-
-/* .cell {height: 8px;outline: 1px solid var(--lineGrid);}
-.noline .cell {outline: none;} */
 
 /*::::::: Styles for colorpicker :::::::*/
 
@@ -232,6 +228,7 @@ main{
 .hex--error {box-shadow: inset 0px 0px 10px 0px red;}
 .bodyMove {cursor: move;}
 .bodyEresize {cursor: e-resize;}
+
 /*::::::::::::::::: styles for clear confirmation:::::::::::::::::::*/
 
 .confirm{
@@ -257,11 +254,8 @@ main{
 }
 .show {visibility: visible;}
 
-
-
-
-
 /*:::::::::::::::: Media queries :::::::::::::::::*/
+
 @media screen and (max-width:768px) {
   main {width: 576px;}
   .canvas {grid-template-columns: repeat(53,10px);}
