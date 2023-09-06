@@ -5,7 +5,11 @@ const $lienzo = document.querySelector(".canvas"),
   $buttonGrid = document.querySelector("[data-action='grid']"),
   $pickerColor = document.querySelector(".picker__color"),
   $cleanConfirm = document.getElementById('cleanConfirm'),
-  $body = document.querySelector("body");
+  $body = document.querySelector("body"),
+  cuadricula = document.getElementById("grid");
+
+const mainCanvas = document.getElementById('canvas');
+const drawingContext = mainCanvas.getContext("2d");
 
 let grid = document.createDocumentFragment(),
   deviceType = "",
@@ -36,27 +40,27 @@ let hueRect = $hueCanvas.getBoundingClientRect(),
 
 const createPen = () => {
   cursorPen = `<svg width="18" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m 12.1,0.146 a 0.5,0.5 0 0 1 0.8,0 l 3,3.004 a 0.5,0.5 0 0 1 0,0.7 L 5.85,13.9 A 0.5,0.5 0 0 1 5.69,14 l -5.004,2 a 0.5,0.5 0 0 1 -0.65,-0.7 l 2.004,-5 a 0.5,0.5 0 0 1 0.11,-0.2 z" /><path d="M 11.2,2.5 13.5,4.79 14.8,3.5 12.5,1.21 Z" fill="#ffffff" /><path d="M 12.8,5.5 10.5,3.21 4,9.71 V 10 H 4.5 A 0.5,0.5 0 0 1 5,10.5 V 11 H 5.5 A 0.5,0.5 0 0 1 6,11.5 V 12 h 0.29 z" fill="#ffffff" /><path d="M 3.03,10.7 2.93,10.8 1.4,14.6 5.22,13.1 5.33,13 A 0.5,0.5 0 0 1 5,12.5 V 12 H 4.5 A 0.5,0.5 0 0 1 4,11.5 V 11 H 3.5 A 0.5,0.5 0 0 1 3.03,10.7 Z" fill="${currentColor}" /></svg>`;
-  $lienzo.style.cursor = `url(data:image/svg+xml;base64,${btoa(cursorPen)})0 16, auto`;
+  mainCanvas.style.cursor = `url(data:image/svg+xml;base64,${btoa(cursorPen)})0 16, auto`;
 }
 const draw = () => {
   $buttonEraser.classList.remove("active");
   $buttonDraw.classList.add("active");
   createPen();
-  $lienzo.classList.remove("cursorEraser")
+  mainCanvas.classList.remove("cursorEraser")
   eraser = false;
 }
 const erase = () => {
   $buttonDraw.classList.remove("active");
   $buttonEraser.classList.add("active");
-  $lienzo.style.cursor = ""
-  $lienzo.classList.add("cursorEraser")
+  mainCanvas.style.cursor = ""
+  mainCanvas.classList.add("cursorEraser")
+
   eraser = true
 }
 const clear = () => {
   draw()
-  $lienzo.childNodes.forEach((e) => {
-    e.style.backgroundColor = "transparent";
-  })
+  drawingContext.fillStyle = "#ffffff";
+  drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
   $cleanConfirm.classList.toggle('show')
   document.querySelector('.overlay--confirm').classList.toggle('show');
   eraser = false;
@@ -71,12 +75,21 @@ const detectDevice = () => {
   }
 }
 const detectWidth = () => {
-  if ($body.clientWidth >= 768)
-    return 4950;
-  else if ($body.clientWidth >= 576)
-    return 2014;
-  else
-    return 988;
+  if ($body.clientWidth >= 768) {
+    mainCanvas.width = 720;
+    mainCanvas.height = 440;
+    return 90;
+  } else if ($body.clientWidth >= 576) {
+    mainCanvas.width = 530;
+    mainCanvas.height = 380;
+    return 53;
+  }
+  else {
+    mainCanvas.width = 260;
+    mainCanvas.height = 380;
+    return 26;
+  }
+
 }
 
 const makeGrid = () => {
@@ -90,7 +103,8 @@ const makeGrid = () => {
 
 const showHideGrid = () => {
   $buttonGrid.classList.toggle("active");
-  $lienzo.classList.toggle("noline");
+  // $lienzo.classList.toggle("noline");
+  cuadricula.classList.toggle("grid--active");
 }
 
 /////
@@ -248,11 +262,13 @@ const eyeDropper = () => {
   }
 }
 
+
 deviceType = detectDevice();
+let pixelNumber = detectWidth();
 createPen();
 
-makeGrid();
-$lienzo.appendChild(grid);
+// makeGrid();
+// $lienzo.appendChild(grid);
 $colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 16 + 'px';
 
 createSpectrum();
@@ -260,28 +276,63 @@ createHue();
 
 //////////
 
-$lienzo.addEventListener("mousedown", (e) => {
+const fillCell = (cellX, cellY) => {
+  const startX = cellX * cellPixelLength;
+  const startY = cellY * cellPixelLength;
+
+  drawingContext.fillStyle = currentColor;
+  drawingContext.fillRect(startX, startY, cellPixelLength, cellPixelLength);
+}
+
+const clearCell = (cellX, cellY) => {
+  const startX = cellX * cellPixelLength;
+  const startY = cellY * cellPixelLength;
+
+  drawingContext.fillStyle = "#ffffff";
+  drawingContext.fillRect(startX, startY, cellPixelLength, cellPixelLength);
+}
+
+
+
+const cellPixelLength = mainCanvas.width / pixelNumber;
+
+drawingContext.fillStyle = "#ffffff";
+drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+
+mainCanvas.addEventListener("mousedown", (e) => {
+
+  if (e.button !== 0) return;
   press = true;
+  const canvasBoundingRect = mainCanvas.getBoundingClientRect();
+  const x = e.clientX - canvasBoundingRect.left;
+  const y = e.clientY - canvasBoundingRect.top;
+  const cellX = Math.floor(x / cellPixelLength);
+  const cellY = Math.floor(y / cellPixelLength);
   if (!eraser)
-    e.target.style.backgroundColor = currentColor;
+    fillCell(cellX, cellY);
   else
-    e.target.style.backgroundColor = "transparent";
+    clearCell(cellX, cellY);
 })
 
-$lienzo.addEventListener(deviceType, (e) => {
+mainCanvas.addEventListener(deviceType, (e) => {
 
   if (deviceType === 'touchmove') {
     e.preventDefault()
-    let elementId = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY).id;
-    if (!eraser && elementId)
-      document.getElementById(elementId).style.backgroundColor = currentColor;
-    else if (eraser && elementId)
-      document.getElementById(elementId).style.backgroundColor = "transparent"
+
+    if (!eraser)
+      fillCell(e.touches[0].clientX, e.touches[0].clientY)
+    else if (eraser)
+      clearCell(e.touches[0].clientX, e.touches[0].clientY)
   } else {
-    if (press && !eraser && e.target.classList.contains("cell"))
-      e.target.style.backgroundColor = currentColor
-    else if (press && eraser && e.target.classList.contains("cell"))
-      e.target.style.backgroundColor = "transparent"
+    const canvasBoundingRect = mainCanvas.getBoundingClientRect();
+    const x = e.clientX - canvasBoundingRect.left;
+    const y = e.clientY - canvasBoundingRect.top;
+    const cellX = Math.floor(x / cellPixelLength);
+    const cellY = Math.floor(y / cellPixelLength);
+    if (press && !eraser)
+      fillCell(cellX, cellY)
+    else if (press && eraser)
+      clearCell(cellX, cellY);
   }
 })
 
@@ -297,9 +348,6 @@ document.addEventListener("mouseup", (e) => {
 })
 
 document.addEventListener("resize", () => {
-  makeGrid()
-  $lienzo.innerHTML = "";
-  $lienzo.appendChild(grid);
   $colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 16 + 'px';
 })
 

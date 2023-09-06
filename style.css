@@ -245,6 +245,31 @@ main{
 }
 .show {visibility: visible;}
 
+
+
+.new-canvas{
+  border-radius: 3px;
+  outline: 2px solid var(--borderCanvas);
+  position: relative;
+  width: 720px;
+  height: 440px;
+  overflow: hidden;
+}
+.grid{
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 720px;
+  height: 440px;
+}
+.grid--active{
+  background-image: linear-gradient(#99999945 1px, transparent 0px), linear-gradient(to right, #99999945 1px, transparent 0px);
+  background-size: 8px 8px;
+  background-origin: border-box;
+  background-position: left -0.5px top -0.5px;
+}
+
 /*:::::::::::::::: Media queries :::::::::::::::::*/
 @media screen and (max-width:768px) {
   main {width: 576px;}
