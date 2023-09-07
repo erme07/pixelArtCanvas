@@ -39,6 +39,9 @@ let hueRect = $hueCanvas.getBoundingClientRect(),
   eraser = false,
   currentColor = '#000000';
 
+
+// canvas functions
+
 const createPen = () => {
   cursorPen = `<svg width="18" height="18" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m 12.1,0.146 a 0.5,0.5 0 0 1 0.8,0 l 3,3.004 a 0.5,0.5 0 0 1 0,0.7 L 5.85,13.9 A 0.5,0.5 0 0 1 5.69,14 l -5.004,2 a 0.5,0.5 0 0 1 -0.65,-0.7 l 2.004,-5 a 0.5,0.5 0 0 1 0.11,-0.2 z" /><path d="M 11.2,2.5 13.5,4.79 14.8,3.5 12.5,1.21 Z" fill="#ffffff" /><path d="M 12.8,5.5 10.5,3.21 4,9.71 V 10 H 4.5 A 0.5,0.5 0 0 1 5,10.5 V 11 H 5.5 A 0.5,0.5 0 0 1 6,11.5 V 12 h 0.29 z" fill="#ffffff" /><path d="M 3.03,10.7 2.93,10.8 1.4,14.6 5.22,13.1 5.33,13 A 0.5,0.5 0 0 1 5,12.5 V 12 H 4.5 A 0.5,0.5 0 0 1 4,11.5 V 11 H 3.5 A 0.5,0.5 0 0 1 3.03,10.7 Z" fill="${currentColor}" /></svg>`;
   mainCanvas.style.cursor = `url(data:image/svg+xml;base64,${btoa(cursorPen)})0 16, auto`;
@@ -73,21 +76,25 @@ const detectDevice = () => {
     return 'mousemove';
   }
 }
-const setWidth = (widthValue, heightValue) => {
-  mainCanvas.width = widthValue;
-  mainCanvas.height = heightValue;
+const setWidth = () => {
+  if (pixelNumber === 90) {
+    mainCanvas.width = 720;
+    mainCanvas.height = 440;
+  } else if (pixelNumber === 53) {
+    mainCanvas.width = 530;
+    mainCanvas.height = 380;
+  } else {
+    mainCanvas.width = 260;
+    mainCanvas.height = 380;
+  }
 }
 const detectWidth = () => {
-  if ($body.clientWidth >= 768) {
-    setWidth(720, 440);
+  if ($body.clientWidth >= 768)
     return 90;
-  } else if ($body.clientWidth >= 576) {
-    setWidth(530, 380);
+  else if ($body.clientWidth >= 576)
     return 53;
-  } else {
-    setWidth(260, 380);
+  else
     return 26;
-  }
 }
 const showHideGrid = () => {
   $buttonGrid.classList.toggle("active");
@@ -105,7 +112,8 @@ const fillCell = (x, y) => {
   drawingContext.fillRect(startX, startY, cellPixelLength, cellPixelLength);
 }
 
-/////
+
+// color picker functions
 
 const refreshElementRects = () => {
   spectrumRect = $spectrumCanvas.getBoundingClientRect();
@@ -257,9 +265,11 @@ const eyeDropper = () => {
   }
 }
 
+// execute
 
 deviceType = detectDevice();
 let pixelNumber = detectWidth();
+setWidth();
 drawingContext.fillStyle = "#ffffff";
 drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 let cellPixelLength = mainCanvas.width / pixelNumber;
@@ -270,7 +280,8 @@ $colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 16 + 'px'
 createSpectrum();
 createHue();
 
-//////////
+
+// set events
 
 mainCanvas.addEventListener("mousedown", (e) => {
   const canvasBoundingRect = mainCanvas.getBoundingClientRect();
@@ -306,10 +317,13 @@ document.addEventListener("mouseup", (e) => {
 })
 
 window.addEventListener("resize", () => {
-  pixelNumber = detectWidth();
-  cellPixelLength = mainCanvas.width / pixelNumber
-  drawingContext.fillStyle = "#ffffff";
-  drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+  if (pixelNumber !== detectWidth() && detectDevice === 'mousemove') {
+    pixelNumber = detectWidth();
+    setWidth();
+    cellPixelLength = mainCanvas.width / pixelNumber
+    drawingContext.fillStyle = "#ffffff";
+    drawingContext.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
+  }
   $colorPicker.style.top = $pickerColor.getBoundingClientRect().bottom + 16 + 'px';
 })
 
