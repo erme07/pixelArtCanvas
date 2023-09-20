@@ -1,6 +1,6 @@
 # Pixel Art Canvas
 
-A small canvas that allows you to create simple figures or complex drawings in pixel art
+A small canvas that allows you to create simple figures or complex drawings in pixel art style
 
 ## Features
 
