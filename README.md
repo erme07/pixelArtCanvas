@@ -15,3 +15,7 @@ A small canvas that allows you to create simple figures or complex drawings in p
 ## Preview
 
 ![preview](img/pixelartPreview.jpg)
+
+### Credits
+
+This project uses the [TinyColor](https://github.com/bgrins/TinyColor) library to manage the color picker function.
