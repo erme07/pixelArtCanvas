@@ -1,14 +1,16 @@
 # Pixel Art Canvas
 
-This project allows you to create pixel art style figures.
+A small canvas that allows you to create simple figures or complex drawings in pixel art
 
 ## Features
 
-- you can choose the color of the brush
-- you can select the eraser to erase any pixel
-- you can clear the entire canvas with the clear button
-- touch screen compatible
-- the size of the device determines the number of cells on the canvas
+- It is possible to choose any color to paint on the canvas.
+- You can erase individual pixels with the eraser.
+- It is possible to clean the entire canvas with a simple click.
+- Grid lines can be enabled or disabled.
+- Compatible with touch screen.
+- Fully responsive.
+- you can download an image with the work done on the canvas
 
 ## Preview
 
