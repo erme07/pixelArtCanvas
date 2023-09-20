@@ -146,10 +146,7 @@ main{
 }
 .overlay{
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100vh;
+  inset: 0;
   visibility: hidden;
 }
 .overlay--confirm {background-color: #000000b9;}
