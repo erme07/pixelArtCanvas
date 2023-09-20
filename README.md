@@ -5,6 +5,7 @@ A small canvas that allows you to create simple figures or complex drawings in p
 ## Features
 
 - It is possible to choose any color to paint on the canvas.
+- has a custom color picker.
 - You can erase individual pixels with the eraser.
 - It is possible to clean the entire canvas with a simple click.
 - Grid lines can be enabled or disabled.
