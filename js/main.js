@@ -68,6 +68,13 @@ const clear = () => {
   document.querySelector('.overlay--confirm').classList.toggle('show');
   eraser = false;
 }
+const saveImage = () => {
+  const image = mainCanvas.toDataURL('image/jpg');
+  const link = document.createElement('a');
+  link.href = image;
+  link.download = 'pixelArtImage.jpg';
+  link.click();
+}
 const detectDevice = () => {
   try {
     document.createEvent("TouchEvent");
@@ -336,6 +343,9 @@ document.addEventListener('click', (e) => {
     $cleanConfirm.classList.toggle('show')
     document.querySelector('.overlay--confirm').classList.toggle('show');
   }
+  else if (e.target.getAttribute("data-action") === "save") {
+    saveImage();
+    }
   else if (e.target.getAttribute("data-action") === "grid")
     showHideGrid();
   else if (e.target.getAttribute('data-value') === 'accept')

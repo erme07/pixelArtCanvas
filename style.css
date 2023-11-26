@@ -44,6 +44,7 @@ main{
 .menu__button--draw { background: url('img/pencil.svg'); background-size: 70%;}
 .menu__button--erase { background: url('img/eraser.svg'); background-size: 80%;}
 .menu__button--trash { background: url('img/trash.svg'); background-size: 90%; }
+.menu__button--save { background: url('img/save.svg'); background-size: 75%;}
 .menu__button--grid { background: url('img/grid.svg'); background-size: 80%; }
 .menu__button{
   height: 50px;
@@ -240,12 +241,7 @@ main{
 @media screen and (max-width:576px) {
   main {width: 320px;}
   .canvas {grid-template-columns: repeat(26,10px);}
-  .menu__button,.picker{
-    height: 45px;
-    width: 45px;
-  }
-  .picker__color{
-    width: 33px;
-    height: 30px;
-  }
+  .menu{ gap: 8px;}
+  .menu__button,.picker {height: 37px; width: 37px;}
+  .picker__color {width: 25px; height: 25px;}
 }
